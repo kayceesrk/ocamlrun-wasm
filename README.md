@@ -32,7 +32,7 @@ I have only tried this on OS X so far and haven't polished any build scripts yet
 
 ### 1. Browser
 
-To test this you'll need a browser with WebAssembly enabled such as [Chrome Canary](https://www.google.com/chrome/browser/canary.html).
+To test this you'll need a browser with WebAssembly enabled such as [Chrome Canary](https://www.google.com/chrome/browser/canary.html) or Firefox 52.0+.
 
 ### 2. Emsdk
 
@@ -75,13 +75,13 @@ It will also build the OCaml bytecode interpreter and GC into a Web Assembly fil
 
 `example.html` contains the bootstrapping script.
 
-You can try it out in your browser using `emrun` (or just server it over HTTP yourself).
+Open `example.html` in your browser (I've only tried it on Firefox). It should print to the console with the default example.
+
+You can recompile the example with:
 
 ```
-emrun --browser=chrome_canary example.html
+./compile.sh
 ```
-
-It should print to the console with the default example.
 
 ### Next Steps
 

@@ -29,6 +29,7 @@ cd ocaml
 make clean
 ./configure -prefix `pwd`/build -no-debugger -no-curses -no-ocamldoc -no-graph
 make -j8 world
+make install
 cd ..
 
 # Build the OCaml example file to byte code.
