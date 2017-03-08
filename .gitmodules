@@ -1,4 +1,4 @@
 [submodule "ocaml"]
 	path = ocaml
-	url = https://github.com/sebmarkbage/ocaml.git
-	branch = wasmfixes
+	url = https://github.com/kayceesrk/ocaml-multicore.git
+	branch = wasm

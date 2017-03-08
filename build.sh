@@ -2,21 +2,10 @@
 
 mkdir -p build
 
-# First we configure and build the native ocaml compiler so that we can use it
-# to compile our ml script at the same version.
+# We configure ocaml for emscripten.
 cd ocaml
+emconfigure ./configure -cc emcc -no-pthread -no-debugger -no-curses -no-ocamldoc -no-graph
 make clean
-./configure -no-native-compiler -no-debugger -no-curses -no-ocamldoc -no-graph
-make world
-cd ..
-
-# Build the OCaml example file to byte code.
-./ocaml/byterun/ocamlrun ./ocaml/ocamlc -o build/example example.ml -nostdlib -I ./ocaml/stdlib
-
-# Next we configure ocaml for emscripten instead.
-cd ocaml
-make clean
-emconfigure ./configure -cc emcc -no-pthread -no-native-compiler -no-debugger -no-curses -no-ocamldoc -no-graph
 
 # TODO: Fix these aliasing hacks.
 # Alias ar to use the llvm version since emscripten requires it but the OCaml
@@ -30,8 +19,17 @@ emmake make
 emmake make
 
 # Give the output a file extension so that emscripten can infer it.
-mv ocamlrun ocamlrun.o
-
+mv ocamlrun ../../build/ocamlrun.o
 cd ../..
 
-emcc -s WASM=1 -O2 ocaml/byterun/ocamlrun.o -o build/ocamlrun.js --preload-file build/example
+# Next we configure and build the native ocaml compiler so that we can use it
+# to compile our ml script at the same version.
+unalias ar
+cd ocaml
+make clean
+./configure -prefix `pwd`/build -no-debugger -no-curses -no-ocamldoc -no-graph
+make -j8 world
+cd ..
+
+# Build the OCaml example file to byte code.
+./compile.sh
